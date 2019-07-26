@@ -1,0 +1,20 @@
+{
+  "name": "grasshopper-ts",
+  "version": "0.1.0",
+  "description": "Grasshopper GOST 3412-2015 ECB implementation with TypeScript",
+  "main": "index.ts",
+  "scripts": {
+
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kaystd/grasshopper-ts.git"
+  },
+  "keywords": [],
+  "author": "kaystd",
+  "license": "",
+  "bugs": {
+    "url": "https://github.com/kaystd/grasshopper-ts/issues"
+  },
+  "homepage": "https://github.com/kaystd/grasshopper-ts#readme"
+}
