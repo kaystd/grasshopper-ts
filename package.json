@@ -2,12 +2,18 @@
   "name": "grasshopper-ts",
   "version": "0.1.0",
   "description": "Grasshopper GOST 3412-2015 ECB implementation with TypeScript",
-  "main": "src/index.ts",
+  "main": "lib/index.ts",
+  "types": "lib/index.d.ts",
   "scripts": {
     "build": "tsc",
     "lint": "tslint --config tslint.json 'src/**/*.ts'",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
-    "test": "jest --config jestconfig.json"
+    "test": "jest --config jestconfig.json",
+    "prepare": "yarn build",
+    "prepublishOnly": "yarn && yarn lint",
+    "preversion": "yarn lint",
+    "version": "yarn format && git add -A src",
+    "postversion": "git push && git push --tags"
   },
   "files": [
     "lib/**/*"
@@ -16,7 +22,9 @@
     "type": "git",
     "url": "https://github.com/kaystd/grasshopper-ts.git"
   },
-  "keywords": [],
+  "keywords": [
+    "Grasshopper", "GOST 3412-2015", "ECB"
+  ],
   "author": "kaystd",
   "license": "",
   "bugs": {
