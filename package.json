@@ -6,9 +6,12 @@
   "scripts": {
     "build": "tsc",
     "lint": "tslint --config tslint.json 'src/**/*.ts'",
-    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\""
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "test": "jest --config jestconfig.json"
   },
-  "files": ["lib/**/*"],
+  "files": [
+    "lib/**/*"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/kaystd/grasshopper-ts.git"
@@ -21,7 +24,10 @@
   },
   "homepage": "https://github.com/kaystd/grasshopper-ts#readme",
   "devDependencies": {
+    "@types/jest": "^24.0.15",
+    "jest": "^24.8.0",
     "prettier": "^1.18.2",
+    "ts-jest": "^24.0.2",
     "tslint": "^5.18.0",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.5.3"
