@@ -5,7 +5,8 @@
   "main": "src/index.ts",
   "scripts": {
     "build": "tsc",
-    "lint": "tslint --config tslint.json 'src/**/*.ts'"
+    "lint": "tslint --config tslint.json 'src/**/*.ts'",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\""
   },
   "repository": {
     "type": "git",
@@ -19,7 +20,9 @@
   },
   "homepage": "https://github.com/kaystd/grasshopper-ts#readme",
   "devDependencies": {
+    "prettier": "^1.18.2",
     "tslint": "^5.18.0",
+    "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.5.3"
   }
 }
