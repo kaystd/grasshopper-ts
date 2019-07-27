@@ -4,6 +4,7 @@
   "description": "Grasshopper GOST 3412-2015 ECB implementation with TypeScript",
   "main": "src/index.ts",
   "scripts": {
+    "build": "tsc",
     "lint": "tslint --config tslint.json 'src/**/*.ts'"
   },
   "repository": {
