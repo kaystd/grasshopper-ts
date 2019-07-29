@@ -39,3 +39,21 @@ export const transformationX = (inputData: number[], roundKey: number[]): number
 
   return outputData.map((v, i) => inputData[i] ^ roundKey[i])
 }
+
+/**
+ * Multiplication in field x^8 + x^7 + x^6 + x + 1
+ * @param lhs
+ * @param rhs
+ */
+export const galoisMultiply = (lhs: number, rhs: number): number => {
+  let result = 0
+  let modulus = 0x1c3 << 7
+
+  for (let detector = 0x1; detector !== 0x100; detector <<= 1, lhs <<= 1) {
+    if (rhs & detector) { result ^= lhs }
+  }
+  for (let detector = 0x8000; detector !== 0x80; detector >>= 1, modulus >>= 1) {
+    if (result & detector) { result ^= modulus }
+  }
+  return result
+}

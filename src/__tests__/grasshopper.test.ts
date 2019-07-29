@@ -1,4 +1,4 @@
-import { blocksS, transformationS, transformationX } from '../grasshopper'
+import { blocksS, galoisMultiply, transformationS, transformationX } from '../grasshopper'
 import { parseHexStringToBuffer } from '../utils'
 
 describe('Grasshopper functions', () => {
@@ -60,6 +60,18 @@ describe('Grasshopper functions', () => {
       const roundKey = parseHexStringToBuffer('8899aabbccddeeff0011223344556677')
       const outputData = parseHexStringToBuffer('99bb99ff99bb99ffffffffffffffffff')
       expect(transformationX(inputData, roundKey)).toEqual(outputData)
+    })
+  })
+
+  describe('galoisMultiply', () => {
+    it('two ones', () => {
+      expect(galoisMultiply(1, 1)).toEqual(1)
+    })
+    it('one one', () => {
+      expect(galoisMultiply(1, 148)).toEqual(148)
+    })
+    it('more bits', () => {
+      expect(galoisMultiply(221, 148)).toEqual(137)
     })
   })
 })
