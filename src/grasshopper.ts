@@ -28,3 +28,14 @@ export const transformationS = (inputData: number[], blocks: number[]): number[]
 
   return outputData.map((v, i) => blocks[inputData[i]])
 }
+
+/**
+ * Modulo 2 round key addition
+ * @param inputData
+ * @param roundKey
+ */
+export const transformationX = (inputData: number[], roundKey: number[]): number[] => {
+  const outputData = Array(inputData.length).fill(0)
+
+  return outputData.map((v, i) => inputData[i] ^ roundKey[i])
+}

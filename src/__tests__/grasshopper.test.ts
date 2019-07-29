@@ -1,4 +1,4 @@
-import { blocksS, transformationS } from '../grasshopper'
+import { blocksS, transformationS, transformationX } from '../grasshopper'
 import { parseHexStringToBuffer } from '../utils'
 
 describe('Grasshopper functions', () => {
@@ -33,6 +33,33 @@ describe('Grasshopper functions', () => {
       const inputData = parseHexStringToBuffer('0c3322fed531e4630d80ef5c5a81c50b')
       const outputData = parseHexStringToBuffer('23ae65633f842d29c5df529c13f5acda')
       expect(transformationS(inputData, blocksS)).toEqual(outputData)
+    })
+  })
+
+  describe('transformationX', () => {
+    it('empty input data', () => {
+      const inputData = parseHexStringToBuffer('')
+      const roundKey = parseHexStringToBuffer('8899aabbccddeeff0011223344556677')
+      const outputData = parseHexStringToBuffer('')
+      expect(transformationX(inputData, roundKey)).toEqual(outputData)
+    })
+    it('8-bit input data', () => {
+      const inputData = parseHexStringToBuffer('11')
+      const roundKey = parseHexStringToBuffer('8899aabbccddeeff0011223344556677')
+      const outputData = parseHexStringToBuffer('99')
+      expect(transformationX(inputData, roundKey)).toEqual(outputData)
+    })
+    it('first test case from standard', () => {
+      const inputData = parseHexStringToBuffer('6ea276726c487ab85d27bd10dd849401')
+      const roundKey = parseHexStringToBuffer('8899aabbccddeeff0011223344556677')
+      const outputData = parseHexStringToBuffer('e63bdcc9a09594475d369f2399d1f276')
+      expect(transformationX(inputData, roundKey)).toEqual(outputData)
+    })
+    it('second test case from standard', () => {
+      const inputData = parseHexStringToBuffer('1122334455667700ffeeddccbbaa9988')
+      const roundKey = parseHexStringToBuffer('8899aabbccddeeff0011223344556677')
+      const outputData = parseHexStringToBuffer('99bb99ff99bb99ffffffffffffffffff')
+      expect(transformationX(inputData, roundKey)).toEqual(outputData)
     })
   })
 })

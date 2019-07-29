@@ -4,6 +4,7 @@
   "rules": {
     "typedef": [true, "call-signature", "arrow-call-signature", "parameter"],
     "quotemark": [true, "single"],
-    "semicolon": [true, "never"]
+    "semicolon": [true, "never"],
+    "no-bitwise": false
   }
 }
