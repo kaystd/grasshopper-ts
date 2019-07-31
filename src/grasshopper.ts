@@ -19,6 +19,11 @@ export const blocksS: number[] = [
 ]
 
 /**
+ * Constants for linear transformation
+ */
+const linearConstants = [148, 32, 133, 16, 194, 192, 1, 251, 1, 192, 194, 16, 133, 32, 148, 1]
+
+/**
  * Nonlinear bijective transformation
  * @param inputData
  * @param blocks
@@ -56,4 +61,26 @@ export const galoisMultiply = (lhs: number, rhs: number): number => {
     if (result & detector) { result ^= modulus }
   }
   return result
+}
+
+/**
+ * Linear feedback shift register
+ * @param inputData
+ */
+export const transformationR = (inputData: number[]): number[] => {
+  const firstElement = Array(inputData.length)
+    .fill(0)
+    .reduce((a, v, i) => a ^ galoisMultiply(inputData[i], linearConstants[i]), 0)
+
+  return [firstElement].concat(inputData.map((v, i, arr) => arr[i - 1]).slice(1))
+}
+
+/**
+ * Linear transformation
+ * @param inputData
+ */
+export const transformationL = (inputData: number[]): number[] => {
+  const outputData = Array(16).fill(0)
+
+  return outputData.reduce((a, v) => transformationR(a), inputData)
 }
