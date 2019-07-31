@@ -84,3 +84,13 @@ export const transformationL = (inputData: number[]): number[] => {
 
   return outputData.reduce((a, v) => transformationR(a), inputData)
 }
+
+/**
+ * Getting iteration constants
+ * @param inputNumber
+ */
+export const transformationC = (inputNumber: number): number[] => {
+  const array = Array(16).fill(0).map((v, i) => i === 15 ? inputNumber : v)
+
+  return transformationL(array)
+}

@@ -1,5 +1,6 @@
 import {
   blocksS,
+  transformationC,
   galoisMultiply,
   transformationL,
   transformationR,
@@ -125,6 +126,41 @@ describe('Grasshopper functions', () => {
       const inputData = parseHexStringToBuffer('0e93691a0cfc60408b7b68f66b513c13')
       const outputData = parseHexStringToBuffer('e6a8094fee0aa204fd97bcb0b44b8580')
       expect(transformationL(inputData)).toEqual(outputData)
+    })
+  })
+
+  describe('transformationC',() => {
+    it('first test case from standard', () => {
+      const outputData = parseHexStringToBuffer('6ea276726c487ab85d27bd10dd849401')
+      expect(transformationC(1)).toEqual(outputData)
+    })
+    it('second test case from standard', () => {
+      const outputData = parseHexStringToBuffer('dc87ece4d890f4b3ba4eb92079cbeb02')
+      expect(transformationC(2)).toEqual(outputData)
+    })
+    it('third test case from standard', () => {
+      const outputData = parseHexStringToBuffer('b2259a96b4d88e0be7690430a44f7f03')
+      expect(transformationC(3)).toEqual(outputData)
+    })
+    it('fourth test case from standard', () => {
+      const outputData = parseHexStringToBuffer('7bcd1b0b73e32ba5b79cb140f2551504')
+      expect(transformationC(4)).toEqual(outputData)
+    })
+    it('fifth test case from standard', () => {
+      const outputData = parseHexStringToBuffer('156f6d791fab511deabb0c502fd18105')
+      expect(transformationC(5)).toEqual(outputData)
+    })
+    it('sixth test case from standard', () => {
+      const outputData = parseHexStringToBuffer('a74af7efab73df160dd208608b9efe06')
+      expect(transformationC(6)).toEqual(outputData)
+    })
+    it('seventh test case from standard', () => {
+      const outputData = parseHexStringToBuffer('c9e8819dc73ba5ae50f5b570561a6a07')
+      expect(transformationC(7)).toEqual(outputData)
+    })
+    it('eighth test case from standard', () => {
+      const outputData = parseHexStringToBuffer('f6593616e6055689adfba18027aa2a08')
+      expect(transformationC(8)).toEqual(outputData)
     })
   })
 })
