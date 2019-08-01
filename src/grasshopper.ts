@@ -1,3 +1,5 @@
+import { curryTwoFlip, pipe } from './utils'
+
 /**
  * S-blocks
  */
@@ -93,4 +95,19 @@ export const transformationC = (inputNumber: number): number[] => {
   const array = Array(16).fill(0).map((v, i) => i === 15 ? inputNumber : v)
 
   return transformationL(array)
+}
+
+/**
+ * F transformation
+ * @param inputData
+ * @param key
+ */
+export const transformationF = (inputData: number[], key: number[][]): number[][] => {
+  const curriedTransformationS = curryTwoFlip(transformationS)(blocksS)
+  const curriedTransformationX = curryTwoFlip(transformationX)(key[1])
+
+  const transformResult =
+    pipe(transformationX, curriedTransformationS, transformationL, curriedTransformationX )(inputData, key[0])
+
+  return [transformResult, key[0]]
 }

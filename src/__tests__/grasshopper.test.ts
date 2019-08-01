@@ -1,7 +1,8 @@
 import {
   blocksS,
-  transformationC,
   galoisMultiply,
+  transformationC,
+  transformationF,
   transformationL,
   transformationR,
   transformationS,
@@ -161,6 +162,105 @@ describe('Grasshopper functions', () => {
     it('eighth test case from standard', () => {
       const outputData = parseHexStringToBuffer('f6593616e6055689adfba18027aa2a08')
       expect(transformationC(8)).toEqual(outputData)
+    })
+  })
+
+  describe('transformationF', () => {
+    it('first test case from standard', () => {
+      const inputData = parseHexStringToBuffer('6ea276726c487ab85d27bd10dd849401')
+      const key = [
+        parseHexStringToBuffer('8899aabbccddeeff0011223344556677'),
+        parseHexStringToBuffer('fedcba98765432100123456789abcdef'),
+      ]
+      const outputData = [
+        parseHexStringToBuffer('c3d5fa01ebe36f7a9374427ad7ca8949'),
+        parseHexStringToBuffer('8899aabbccddeeff0011223344556677'),
+      ]
+      expect(transformationF(inputData, key)).toEqual(outputData)
+    })
+    it('second test case from standard', () => {
+      const inputData = parseHexStringToBuffer('dc87ece4d890f4b3ba4eb92079cbeb02')
+      const key = [
+        parseHexStringToBuffer('c3d5fa01ebe36f7a9374427ad7ca8949'),
+        parseHexStringToBuffer('8899aabbccddeeff0011223344556677')
+      ]
+      const outputData = [
+        parseHexStringToBuffer('37777748e56453377d5e262d90903f87'),
+        parseHexStringToBuffer('c3d5fa01ebe36f7a9374427ad7ca8949'),
+      ]
+      expect(transformationF(inputData, key)).toEqual(outputData)
+    })
+    it('third test case from standard', () => {
+      const inputData = parseHexStringToBuffer('b2259a96b4d88e0be7690430a44f7f03')
+      const key = [
+        parseHexStringToBuffer('37777748e56453377d5e262d90903f87'),
+        parseHexStringToBuffer('c3d5fa01ebe36f7a9374427ad7ca8949'),
+      ]
+      const outputData = [
+        parseHexStringToBuffer('f9eae5f29b2815e31f11ac5d9c29fb01'),
+        parseHexStringToBuffer('37777748e56453377d5e262d90903f87'),
+      ]
+      expect(transformationF(inputData, key)).toEqual(outputData)
+    })
+    it('fourth test case from standard', () => {
+      const inputData = parseHexStringToBuffer('7bcd1b0b73e32ba5b79cb140f2551504')
+      const key = [
+        parseHexStringToBuffer('f9eae5f29b2815e31f11ac5d9c29fb01'),
+        parseHexStringToBuffer('37777748e56453377d5e262d90903f87'),
+      ]
+      const outputData = [
+        parseHexStringToBuffer('e980089683d00d4be37dd3434699b98f'),
+        parseHexStringToBuffer('f9eae5f29b2815e31f11ac5d9c29fb01'),
+      ]
+      expect(transformationF(inputData, key)).toEqual(outputData)
+    })
+    it('fifth test case from standard', () => {
+      const inputData = parseHexStringToBuffer('156f6d791fab511deabb0c502fd18105')
+      const key = [
+        parseHexStringToBuffer('e980089683d00d4be37dd3434699b98f'),
+        parseHexStringToBuffer('f9eae5f29b2815e31f11ac5d9c29fb01'),
+      ]
+      const outputData = [
+        parseHexStringToBuffer('b7bd70acea4460714f4ebe13835cf004'),
+        parseHexStringToBuffer('e980089683d00d4be37dd3434699b98f'),
+      ]
+      expect(transformationF(inputData, key)).toEqual(outputData)
+    })
+    it('sixth test case from standard', () => {
+      const inputData = parseHexStringToBuffer('a74af7efab73df160dd208608b9efe06')
+      const key = [
+        parseHexStringToBuffer('b7bd70acea4460714f4ebe13835cf004'),
+        parseHexStringToBuffer('e980089683d00d4be37dd3434699b98f'),
+      ]
+      const outputData = [
+        parseHexStringToBuffer('1a46ea1cf6ccd236467287df93fdf974'),
+        parseHexStringToBuffer('b7bd70acea4460714f4ebe13835cf004'),
+      ]
+      expect(transformationF(inputData, key)).toEqual(outputData)
+    })
+    it('seventh test case from standard', () => {
+      const inputData = parseHexStringToBuffer('c9e8819dc73ba5ae50f5b570561a6a07')
+      const key = [
+        parseHexStringToBuffer('1a46ea1cf6ccd236467287df93fdf974'),
+        parseHexStringToBuffer('b7bd70acea4460714f4ebe13835cf004'),
+      ]
+      const outputData = [
+        parseHexStringToBuffer('3d4553d8e9cfec6815ebadc40a9ffd04'),
+        parseHexStringToBuffer('1a46ea1cf6ccd236467287df93fdf974'),
+      ]
+      expect(transformationF(inputData, key)).toEqual(outputData)
+    })
+    it('eighth test case from standard', () => {
+      const inputData = parseHexStringToBuffer('f6593616e6055689adfba18027aa2a08')
+      const key = [
+        parseHexStringToBuffer('3d4553d8e9cfec6815ebadc40a9ffd04'),
+        parseHexStringToBuffer('1a46ea1cf6ccd236467287df93fdf974'),
+      ]
+      const outputData = [
+        parseHexStringToBuffer('db31485315694343228d6aef8cc78c44'),
+        parseHexStringToBuffer('3d4553d8e9cfec6815ebadc40a9ffd04'),
+      ]
+      expect(transformationF(inputData, key)).toEqual(outputData)
     })
   })
 })
