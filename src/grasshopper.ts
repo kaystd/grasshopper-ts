@@ -111,3 +111,20 @@ export const transformationF = (inputData: number[], key: number[][]): number[][
 
   return [transformResult, key[0]]
 }
+
+/**
+ * Key deployment
+ * @param masterKey
+ */
+export const deployKeys = (masterKey: number[]): number[][] => {
+  const iterativeKeys = [masterKey.slice(0, 16), masterKey.slice(16, 32)]
+
+  return  Array(4).fill(0).reduce((extAcc, extVal, extInd) => {
+    const keyPair = Array(8).fill(0).reduce(
+      (intAcc, intVal, intInd) => transformationF(transformationC(8 * extInd + intInd + 1), intAcc),
+      [extAcc[extInd * 2], extAcc[extInd * 2 + 1]]
+    )
+
+    return extAcc.concat([keyPair[0]]).concat([keyPair[1]])
+  }, iterativeKeys)
+}

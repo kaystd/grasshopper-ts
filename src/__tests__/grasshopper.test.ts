@@ -1,5 +1,6 @@
 import {
   blocksS,
+  deployKeys,
   galoisMultiply,
   transformationC,
   transformationF,
@@ -261,6 +262,25 @@ describe('Grasshopper functions', () => {
         parseHexStringToBuffer('3d4553d8e9cfec6815ebadc40a9ffd04'),
       ]
       expect(transformationF(inputData, key)).toEqual(outputData)
+    })
+  })
+
+  describe('deployKeys', () => {
+    it('test case from standard', () => {
+      const masterKey =
+        parseHexStringToBuffer('8899aabbccddeeff0011223344556677fedcba98765432100123456789abcdef')
+      const key1 = parseHexStringToBuffer('8899aabbccddeeff0011223344556677')
+      const key2 = parseHexStringToBuffer('fedcba98765432100123456789abcdef')
+      const key3 = parseHexStringToBuffer('db31485315694343228d6aef8cc78c44')
+      const key4 = parseHexStringToBuffer('3d4553d8e9cfec6815ebadc40a9ffd04')
+      const key5 = parseHexStringToBuffer('57646468c44a5e28d3e59246f429f1ac')
+      const key6 = parseHexStringToBuffer('bd079435165c6432b532e82834da581b')
+      const key7 = parseHexStringToBuffer('51e640757e8745de705727265a0098b1')
+      const key8 = parseHexStringToBuffer('5a7925017b9fdd3ed72a91a22286f984')
+      const key9 = parseHexStringToBuffer('bb44e25378c73123a5f32f73cdb6e517')
+      const key10 = parseHexStringToBuffer('72e9dd7416bcf45b755dbaa88e4a4043')
+      const iterativeKeys = [key1, key2, key3, key4, key5, key6, key7, key8, key9, key10]
+      expect(deployKeys(masterKey)).toEqual(iterativeKeys)
     })
   })
 })
