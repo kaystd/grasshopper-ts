@@ -1,13 +1,14 @@
 import {
   blocksS,
   deployKeys,
+  encrypt,
   galoisMultiply,
   transformationC,
   transformationF,
   transformationL,
   transformationR,
   transformationS,
-  transformationX
+  transformationX,
 } from '../grasshopper'
 import { parseHexStringToBuffer } from '../utils'
 
@@ -281,6 +282,15 @@ describe('Grasshopper functions', () => {
       const key10 = parseHexStringToBuffer('72e9dd7416bcf45b755dbaa88e4a4043')
       const iterativeKeys = [key1, key2, key3, key4, key5, key6, key7, key8, key9, key10]
       expect(deployKeys(masterKey)).toEqual(iterativeKeys)
+    })
+  })
+
+  describe('encrypt', () => {
+    it('test case from standard', () => {
+      const plainText = parseHexStringToBuffer('1122334455667700ffeeddccbbaa9988')
+      const key = parseHexStringToBuffer('8899aabbccddeeff0011223344556677fedcba98765432100123456789abcdef')
+      const cipherText = parseHexStringToBuffer('7f679d90bebc24305a468d42b9d4edcd')
+      expect(encrypt(plainText, key)).toEqual(cipherText)
     })
   })
 })

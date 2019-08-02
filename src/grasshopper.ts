@@ -128,3 +128,21 @@ export const deployKeys = (masterKey: number[]): number[][] => {
     return extAcc.concat([keyPair[0]]).concat([keyPair[1]])
   }, iterativeKeys)
 }
+
+/**
+ * Encryption
+ * @param plainText
+ * @param masterKey
+ */
+export const encrypt = (plainText: number[], masterKey: number[]): number[] => {
+  const message = [...plainText]
+  const roundKeys = deployKeys(masterKey)
+
+  const transformed = Array(9).fill(0).reduce((a, v, i) => {
+    const curriedTransformationS = curryTwoFlip(transformationS)(blocksS)
+
+    return pipe(transformationX, curriedTransformationS, transformationL)(a, roundKeys[i])
+  }, message)
+
+  return transformationX(transformed, roundKeys[9])
+}
