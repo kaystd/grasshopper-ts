@@ -107,6 +107,13 @@ export const transformationL = (inputData: number[]): number[] =>
   inputData.reduce(acc => transformationR(acc), inputData)
 
 /**
+ * Inverse linear transformation
+ * @param inputData
+ */
+export const invTransformationL = (inputData: number[]): number[] =>
+  inputData.reduce(acc => invTransformationR(acc), inputData)
+
+/**
  * Getting iteration constants
  * @param inputNumber
  */
