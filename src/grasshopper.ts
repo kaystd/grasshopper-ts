@@ -172,3 +172,21 @@ export const encrypt = (plainText: number[], masterKey: number[]): number[] => {
 
   return transformationX(transformed, roundKeys[9])
 }
+
+/**
+ * Decryption
+ * @param cypherText
+ * @param masterKey
+ */
+export const decrypt = (cypherText: number[], masterKey: number[]): number[] => {
+  const message = [...cypherText]
+  const roundKeys = deployKeys(masterKey)
+
+  const transformed = roundKeys.reduceRight((acc, val, ind) => {
+    const curriedTransformationS = curryTwoFlip(transformationS)(invBlocksS)
+
+    return ind === 0 ? acc : pipe(transformationX, invTransformationL, curriedTransformationS)(acc, roundKeys[ind])
+  }, message)
+
+  return transformationX(transformed, roundKeys[0])
+}

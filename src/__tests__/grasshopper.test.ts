@@ -2,6 +2,7 @@ import {
   blocksS,
   deployKeys,
   encrypt,
+  decrypt,
   galoisMultiply,
   invBlocksS,
   invTransformationL,
@@ -360,6 +361,15 @@ describe('Grasshopper functions', () => {
       const key = parseHexStringToBuffer('8899aabbccddeeff0011223344556677fedcba98765432100123456789abcdef')
       const cipherText = parseHexStringToBuffer('7f679d90bebc24305a468d42b9d4edcd')
       expect(encrypt(plainText, key)).toEqual(cipherText)
+    })
+  })
+
+  describe('decrypt', () => {
+    it('test case from standard', () => {
+      const cypherText = parseHexStringToBuffer('7f679d90bebc24305a468d42b9d4edcd')
+      const key = parseHexStringToBuffer('8899aabbccddeeff0011223344556677fedcba98765432100123456789abcdef')
+      const plainText = parseHexStringToBuffer('1122334455667700ffeeddccbbaa9988')
+      expect(decrypt(cypherText, key)).toEqual(plainText)
     })
   })
 })
