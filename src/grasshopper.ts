@@ -96,6 +96,17 @@ export const transformationR = (inputData: number[]): number[] => {
 }
 
 /**
+ * Inverse linear feedback shift register
+ * @param inputData
+ */
+export const invTransformationR = (inputData: number[]): number[] => {
+  const [first, ...rest] = inputData
+  const transformed = rest.concat(first).reduce((a, v, i) => a ^ galoisMultiply(v, linearConstants[i]), 0)
+
+  return rest.concat(transformed)
+}
+
+/**
  * Linear transformation
  * @param inputData
  */

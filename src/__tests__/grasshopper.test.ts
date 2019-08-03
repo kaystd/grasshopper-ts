@@ -4,6 +4,7 @@ import {
   encrypt,
   galoisMultiply,
   invBlocksS,
+  invTransformationR,
   transformationC,
   transformationF,
   transformationL,
@@ -127,6 +128,29 @@ describe('Grasshopper functions', () => {
       const inputData = parseHexStringToBuffer('64a59400000000000000000000000000')
       const outputData = parseHexStringToBuffer('0d64a594000000000000000000000000')
       expect(transformationR(inputData)).toEqual(outputData)
+    })
+  })
+
+  describe('invTransformationR', () => {
+    it('first test case from standard with inversion', () => {
+      const inputData = parseHexStringToBuffer('94000000000000000000000000000001')
+      const outputData = parseHexStringToBuffer('00000000000000000000000000000100')
+      expect(invTransformationR(inputData)).toEqual(outputData)
+    })
+    it('second test case from standard with inversion', () => {
+      const inputData = parseHexStringToBuffer('a5940000000000000000000000000000')
+      const outputData = parseHexStringToBuffer('94000000000000000000000000000001')
+      expect(invTransformationR(inputData)).toEqual(outputData)
+    })
+    it('third test case from standard with inversion', () => {
+      const inputData = parseHexStringToBuffer('64a59400000000000000000000000000')
+      const outputData = parseHexStringToBuffer('a5940000000000000000000000000000')
+      expect(invTransformationR(inputData)).toEqual(outputData)
+    })
+    it('fourth test case from standard with inversion', () => {
+      const inputData = parseHexStringToBuffer('0d64a594000000000000000000000000')
+      const outputData = parseHexStringToBuffer('64a59400000000000000000000000000')
+      expect(invTransformationR(inputData)).toEqual(outputData)
     })
   })
 
