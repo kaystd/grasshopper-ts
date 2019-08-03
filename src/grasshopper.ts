@@ -164,13 +164,13 @@ export const encrypt = (plainText: number[], masterKey: number[]): number[] => {
   const message = [...plainText]
   const roundKeys = deployKeys(masterKey)
 
-  const transformed = Array(9).fill(0).reduce((a, v, i) => {
+  return roundKeys.reduce((acc, val, ind) => {
     const curriedTransformationS = curryTwoFlip(transformationS)(blocksS)
 
-    return pipe(transformationX, curriedTransformationS, transformationL)(a, roundKeys[i])
+    return ind === 9
+      ? transformationX(acc, roundKeys[ind])
+      : pipe(transformationX, curriedTransformationS, transformationL)(acc, roundKeys[ind])
   }, message)
-
-  return transformationX(transformed, roundKeys[9])
 }
 
 /**
@@ -182,11 +182,11 @@ export const decrypt = (cypherText: number[], masterKey: number[]): number[] => 
   const message = [...cypherText]
   const roundKeys = deployKeys(masterKey)
 
-  const transformed = roundKeys.reduceRight((acc, val, ind) => {
+  return roundKeys.reduceRight((acc, val, ind) => {
     const curriedTransformationS = curryTwoFlip(transformationS)(invBlocksS)
 
-    return ind === 0 ? acc : pipe(transformationX, invTransformationL, curriedTransformationS)(acc, roundKeys[ind])
+    return ind === 0
+      ? transformationX(acc, roundKeys[ind])
+      : pipe(transformationX, invTransformationL, curriedTransformationS)(acc, roundKeys[ind])
   }, message)
-
-  return transformationX(transformed, roundKeys[0])
 }
