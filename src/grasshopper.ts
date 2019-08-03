@@ -48,22 +48,16 @@ const linearConstants = [148, 32, 133, 16, 194, 192, 1, 251, 1, 192, 194, 16, 13
  * @param inputData
  * @param blocks
  */
-export const transformationS = (inputData: number[], blocks: number[]): number[] => {
-  const outputData = Array(inputData.length).fill(0)
-
-  return outputData.map((v, i) => blocks[inputData[i]])
-}
+export const transformationS = (inputData: number[], blocks: number[]): number[] =>
+  inputData.map((val) => blocks[val])
 
 /**
  * Modulo 2 round key addition
  * @param inputData
  * @param roundKey
  */
-export const transformationX = (inputData: number[], roundKey: number[]): number[] => {
-  const outputData = Array(inputData.length).fill(0)
-
-  return outputData.map((v, i) => inputData[i] ^ roundKey[i])
-}
+export const transformationX = (inputData: number[], roundKey: number[]): number[] =>
+  inputData.map((val, ind) => val ^ roundKey[ind])
 
 /**
  * Multiplication in field x^8 + x^7 + x^6 + x + 1
@@ -88,11 +82,10 @@ export const galoisMultiply = (lhs: number, rhs: number): number => {
  * @param inputData
  */
 export const transformationR = (inputData: number[]): number[] => {
-  const firstElement = Array(inputData.length)
-    .fill(0)
-    .reduce((a, v, i) => a ^ galoisMultiply(inputData[i], linearConstants[i]), 0)
+  const sliced = inputData.slice(0, inputData.length - 1)
+  const transformed = inputData.reduce((acc, val, ind) => acc ^ galoisMultiply(val, linearConstants[ind]), 0)
 
-  return [firstElement].concat(inputData.map((v, i, arr) => arr[i - 1]).slice(1))
+  return [transformed].concat(sliced)
 }
 
 /**
@@ -101,7 +94,7 @@ export const transformationR = (inputData: number[]): number[] => {
  */
 export const invTransformationR = (inputData: number[]): number[] => {
   const [first, ...rest] = inputData
-  const transformed = rest.concat(first).reduce((a, v, i) => a ^ galoisMultiply(v, linearConstants[i]), 0)
+  const transformed = rest.concat(first).reduce((acc, val, ind) => acc ^ galoisMultiply(val, linearConstants[ind]), 0)
 
   return rest.concat(transformed)
 }
@@ -110,11 +103,8 @@ export const invTransformationR = (inputData: number[]): number[] => {
  * Linear transformation
  * @param inputData
  */
-export const transformationL = (inputData: number[]): number[] => {
-  const outputData = Array(16).fill(0)
-
-  return outputData.reduce((a, v) => transformationR(a), inputData)
-}
+export const transformationL = (inputData: number[]): number[] =>
+  inputData.reduce(acc => transformationR(acc), inputData)
 
 /**
  * Getting iteration constants
