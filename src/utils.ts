@@ -121,3 +121,21 @@ export const encryptString = (message: string, masterKey: string): string => {
 
   return bufferToBase64(joined)
 }
+
+
+/**
+ * Decrypts encrypted message in Base-64 and returns Utf-8 string message
+ * @param message Base-64 string
+ * @param masterKey Base-64 string
+ */
+export const decryptString = (message: string, masterKey: string): string => {
+  const masterKeyBuffer = base64ToBuffer(masterKey)
+  const curriedDecrypt = curryTwoFlip(decrypt)(masterKeyBuffer)
+
+  const buffer = base64ToBuffer(message)
+  const split = splitMessage(buffer)
+  const decrypted = split.map(curriedDecrypt)
+  const truncated = pipe(joinMessage, truncateMessage)(decrypted)
+
+  return pipe(bufferToBase64, base64ToUtf8)(truncated)
+}

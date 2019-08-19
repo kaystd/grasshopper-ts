@@ -4,6 +4,7 @@ import {
   bufferToBase64,
   complementMessage,
   curryTwoFlip,
+  decryptString,
   encryptString,
   joinMessage,
   parseHexStringToBuffer,
@@ -180,6 +181,16 @@ describe('Utils functions', () => {
       const encrypted = '0E2wSxOZUrnFOeWGoBeFX8Nhj0Dw7T2eL4+4M89eLfI='
 
       expect(encryptString(message, key)).toEqual(encrypted)
+    })
+  })
+
+  describe('decryptString', () => {
+    it('string with utf-8 symbols', () => {
+      const key = 'YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXoxMjM0NTY='
+      const encrypted = '0E2wSxOZUrnFOeWGoBeFX8Nhj0Dw7T2eL4+4M89eLfI='
+      const message = 'Hello World! 😀😃😄'
+
+      expect(decryptString(encrypted, key)).toEqual(message)
     })
   })
 })
