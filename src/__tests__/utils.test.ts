@@ -17,7 +17,6 @@ import {
 } from '../utils'
 
 describe('Utils functions', () => {
-
   describe('parseHexStringToBuffer', () => {
     it('empty vector', () => {
       const vector = ''
@@ -58,19 +57,30 @@ describe('Utils functions', () => {
     it('composition of two functions', () => {
       const add4 = (a: number): number => a + 4
       const mul3 = (a: number): number => a * 3
-      const piped = pipe(add4, mul3)(1)
+      const piped = pipe(
+        add4,
+        mul3,
+      )(1)
       expect(piped).toEqual(15)
     })
     it('composition of four functions', () => {
       const add4 = (a: number): number => a + 4
       const mul3 = (a: number): number => a * 3
-      const piped = pipe(add4, mul3, add4, mul3)(1)
+      const piped = pipe(
+        add4,
+        mul3,
+        add4,
+        mul3,
+      )(1)
       expect(piped).toEqual(57)
     })
     it('composition of two functions with two args', () => {
       const add = (a: number, b: number): number => a + b
-      const mul = (a: number): (b: number) => number => (b: number): number => a * b
-      const piped = pipe(add, mul(3))(2, 3)
+      const mul = (a: number): ((b: number) => number) => (b: number): number => a * b
+      const piped = pipe(
+        add,
+        mul(3),
+      )(2, 3)
       expect(piped).toEqual(15)
     })
   })
@@ -101,12 +111,16 @@ describe('Utils functions', () => {
 
   describe('complementMessage', () => {
     it('9 octets', () => {
+      // prettier-ignore
       const originalMessage = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+      // prettier-ignore
       const complementedMessage = [1, 2, 3, 4, 5, 6, 7, 8, 9, 128, 0, 0, 0, 0, 0, 0]
       expect(complementMessage(originalMessage)).toEqual(complementedMessage)
     })
     it('16 octets', () => {
+      // prettier-ignore
       const originalMessage = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+      // prettier-ignore
       const complementedMessage = [
         1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 128, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
       ]
@@ -121,6 +135,7 @@ describe('Utils functions', () => {
       expect(truncateMessage(complementedMessage)).toEqual(originalMessage)
     })
     it('16 octets', () => {
+      // prettier-ignore
       const complementedMessage = [
         1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 128, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
       ]
@@ -147,10 +162,12 @@ describe('Utils functions', () => {
 
   describe('splitMessage', () => {
     it('48 octets', () => {
+      // prettier-ignore
       const message = [
         1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
         31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48
       ]
+      // prettier-ignore
       const chunks = [
         [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
         [17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32],
@@ -162,11 +179,13 @@ describe('Utils functions', () => {
 
   describe('joinMessage', () => {
     it('48 octets', () => {
+      // prettier-ignore
       const chunks = [
         [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
         [17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32],
         [33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48],
       ]
+      // prettier-ignore
       const message = [
         1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
         31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48

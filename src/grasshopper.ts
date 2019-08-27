@@ -1,5 +1,6 @@
 import { curryTwoFlip, pipe } from './utils'
 
+// prettier-ignore
 /**
  * S-blocks
  */
@@ -20,6 +21,7 @@ export const blocksS: number[] = [
   116, 210, 230, 244, 180, 192, 209, 102, 175, 194, 57, 75, 99, 182
 ]
 
+// prettier-ignore
 /**
  * Inverse S-blocks
  */
@@ -48,8 +50,7 @@ const linearConstants = [148, 32, 133, 16, 194, 192, 1, 251, 1, 192, 194, 16, 13
  * @param inputData
  * @param blocks
  */
-export const transformationS = (inputData: number[], blocks: number[]): number[] =>
-  inputData.map((val) => blocks[val])
+export const transformationS = (inputData: number[], blocks: number[]): number[] => inputData.map(val => blocks[val])
 
 /**
  * Modulo 2 round key addition
@@ -69,10 +70,14 @@ export const galoisMultiply = (lhs: number, rhs: number): number => {
   let modulus = 0x1c3 << 7
 
   for (let detector = 0x1; detector !== 0x100; detector <<= 1, lhs <<= 1) {
-    if (rhs & detector) { result ^= lhs }
+    if (rhs & detector) {
+      result ^= lhs
+    }
   }
   for (let detector = 0x8000; detector !== 0x80; detector >>= 1, modulus >>= 1) {
-    if (result & detector) { result ^= modulus }
+    if (result & detector) {
+      result ^= modulus
+    }
   }
   return result
 }
@@ -118,7 +123,9 @@ export const invTransformationL = (inputData: number[]): number[] =>
  * @param inputNumber
  */
 export const transformationC = (inputNumber: number): number[] => {
-  const array = Array(16).fill(0).map((v, i) => i === 15 ? inputNumber : v)
+  const array = Array(16)
+    .fill(0)
+    .map((v, i) => (i === 15 ? inputNumber : v))
 
   return transformationL(array)
 }
@@ -132,8 +139,12 @@ export const transformationF = (inputData: number[], key: number[][]): number[][
   const curriedTransformationS = curryTwoFlip(transformationS)(blocksS)
   const curriedTransformationX = curryTwoFlip(transformationX)(key[1])
 
-  const transformResult =
-    pipe(transformationX, curriedTransformationS, transformationL, curriedTransformationX )(inputData, key[0])
+  const transformResult = pipe(
+    transformationX,
+    curriedTransformationS,
+    transformationL,
+    curriedTransformationX,
+  )(inputData, key[0])
 
   return [transformResult, key[0]]
 }
@@ -145,14 +156,18 @@ export const transformationF = (inputData: number[], key: number[][]): number[][
 export const deployKeys = (masterKey: number[]): number[][] => {
   const iterativeKeys = [masterKey.slice(0, 16), masterKey.slice(16, 32)]
 
-  return  Array(4).fill(0).reduce((extAcc, extVal, extInd) => {
-    const keyPair = Array(8).fill(0).reduce(
-      (intAcc, intVal, intInd) => transformationF(transformationC(8 * extInd + intInd + 1), intAcc),
-      [extAcc[extInd * 2], extAcc[extInd * 2 + 1]]
-    )
+  return Array(4)
+    .fill(0)
+    .reduce((extAcc, extVal, extInd) => {
+      const keyPair = Array(8)
+        .fill(0)
+        .reduce((intAcc, intVal, intInd) => transformationF(transformationC(8 * extInd + intInd + 1), intAcc), [
+          extAcc[extInd * 2],
+          extAcc[extInd * 2 + 1],
+        ])
 
-    return extAcc.concat([keyPair[0]]).concat([keyPair[1]])
-  }, iterativeKeys)
+      return extAcc.concat([keyPair[0]]).concat([keyPair[1]])
+    }, iterativeKeys)
 }
 
 /**
@@ -169,7 +184,11 @@ export const encrypt = (plainText: number[], masterKey: number[]): number[] => {
 
     return ind === 9
       ? transformationX(acc, roundKeys[ind])
-      : pipe(transformationX, curriedTransformationS, transformationL)(acc, roundKeys[ind])
+      : pipe(
+          transformationX,
+          curriedTransformationS,
+          transformationL,
+        )(acc, roundKeys[ind])
   }, message)
 }
 
@@ -187,6 +206,10 @@ export const decrypt = (cypherText: number[], masterKey: number[]): number[] => 
 
     return ind === 0
       ? transformationX(acc, roundKeys[ind])
-      : pipe(transformationX, invTransformationL, curriedTransformationS)(acc, roundKeys[ind])
+      : pipe(
+          transformationX,
+          invTransformationL,
+          curriedTransformationS,
+        )(acc, roundKeys[ind])
   }, message)
 }

@@ -4,20 +4,20 @@ import { decrypt, encrypt } from './grasshopper'
  * Curries a function with two arguments and flip them
  * @param fn
  */
-export const curryTwoFlip = <A, B, R>(fn: (a: A, b: B) => R): ((b: B) => (a: A) => R) =>
-  (b: B): (a: A) => R =>
-    (a: A): R => fn(a, b)
+export const curryTwoFlip = <A, B, R>(fn: (a: A, b: B) => R): ((b: B) => (a: A) => R) => (b: B): ((a: A) => R) => (
+  a: A,
+): R => fn(a, b)
 
 /**
  * Performs left-to-right function composition
  * @param fn1
  * @param fns
  */
-export const pipe = <A extends any[], R extends any>(fn1: (...args: A) => R, ...fns: Array<(a: R) => R>): ((...args: A) => R) => {
-  const piped = fns.reduce(
-    (prevFn, nextFn) => (value: R): R => nextFn(prevFn(value)),
-    value => value
-  )
+export const pipe = <A extends any[], R extends any>(
+  fn1: (...args: A) => R,
+  ...fns: Array<(a: R) => R>
+): ((...args: A) => R) => {
+  const piped = fns.reduce((prevFn, nextFn) => (value: R): R => nextFn(prevFn(value)), value => value)
   return (...args: A): R => piped(fn1(...args))
 }
 
@@ -47,11 +47,19 @@ export const utf8ToBuffer = (utf8String: string): number[] => {
  * @param buffer
  */
 export const complementMessage = (buffer: number[]): number[] => {
-  const mapping = (_: number, ind: number): number => ind === 0 ? 128 : 0
+  const mapping = (_: number, ind: number): number => (ind === 0 ? 128 : 0)
   const lengthModulo = buffer.length % 16
   return lengthModulo === 0
-    ? buffer.concat(Array(16).fill(0).map(mapping))
-    : buffer.concat(Array(16 - lengthModulo).fill(0).map(mapping))
+    ? buffer.concat(
+        Array(16)
+          .fill(0)
+          .map(mapping),
+      )
+    : buffer.concat(
+        Array(16 - lengthModulo)
+          .fill(0)
+          .map(mapping),
+      )
 }
 
 /**
@@ -95,7 +103,9 @@ export const base64ToBuffer = (base64String: string): number[] => Array.from(Buf
 export const splitMessage = (buffer: number[]): number[][] => {
   const chunksNumber = Math.floor(buffer.length / 16)
 
-  return Array(chunksNumber).fill(0).map((val, ind) => buffer.slice(ind * 16, (ind + 1) * 16))
+  return Array(chunksNumber)
+    .fill(0)
+    .map((val, ind) => buffer.slice(ind * 16, (ind + 1) * 16))
 }
 
 /**
@@ -114,7 +124,10 @@ export const encryptString = (message: string, masterKey: string): string => {
   const masterKeyBuffer = base64ToBuffer(masterKey)
   const curriedEncrypt = curryTwoFlip(encrypt)(masterKeyBuffer)
 
-  const complemented = pipe(utf8ToBuffer, complementMessage)(message)
+  const complemented = pipe(
+    utf8ToBuffer,
+    complementMessage,
+  )(message)
   const split = splitMessage(complemented)
   const encrypted = split.map(curriedEncrypt)
   const joined = joinMessage(encrypted)
@@ -134,16 +147,24 @@ export const decryptString = (message: string, masterKey: string): string => {
   const buffer = base64ToBuffer(message)
   const split = splitMessage(buffer)
   const decrypted = split.map(curriedDecrypt)
-  const truncated = pipe(joinMessage, truncateMessage)(decrypted)
+  const truncated = pipe(
+    joinMessage,
+    truncateMessage,
+  )(decrypted)
 
-  return pipe(bufferToBase64, base64ToUtf8)(truncated)
+  return pipe(
+    bufferToBase64,
+    base64ToUtf8,
+  )(truncated)
 }
 
 /**
  * Generates 256-bit masterKey in Base-64
  */
 export const generateKey = (): string => {
-  const buffer = Array(32).fill(0).map(v => Math.floor(Math.random() * 255))
+  const buffer = Array(32)
+    .fill(0)
+    .map(v => Math.floor(Math.random() * 255))
 
   return bufferToBase64(buffer)
 }

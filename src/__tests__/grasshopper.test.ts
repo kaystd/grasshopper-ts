@@ -1,8 +1,8 @@
 import {
   blocksS,
+  decrypt,
   deployKeys,
   encrypt,
-  decrypt,
   galoisMultiply,
   invBlocksS,
   invTransformationL,
@@ -17,7 +17,6 @@ import {
 import { parseHexStringToBuffer } from '../utils'
 
 describe('Grasshopper functions', () => {
-
   describe('transformationS', () => {
     it('empty input data', () => {
       const inputData = parseHexStringToBuffer('')
@@ -202,7 +201,7 @@ describe('Grasshopper functions', () => {
     })
   })
 
-  describe('transformationC',() => {
+  describe('transformationC', () => {
     it('first test case from standard', () => {
       const outputData = parseHexStringToBuffer('6ea276726c487ab85d27bd10dd849401')
       expect(transformationC(1)).toEqual(outputData)
@@ -254,7 +253,7 @@ describe('Grasshopper functions', () => {
       const inputData = parseHexStringToBuffer('dc87ece4d890f4b3ba4eb92079cbeb02')
       const key = [
         parseHexStringToBuffer('c3d5fa01ebe36f7a9374427ad7ca8949'),
-        parseHexStringToBuffer('8899aabbccddeeff0011223344556677')
+        parseHexStringToBuffer('8899aabbccddeeff0011223344556677'),
       ]
       const outputData = [
         parseHexStringToBuffer('37777748e56453377d5e262d90903f87'),
@@ -338,8 +337,7 @@ describe('Grasshopper functions', () => {
 
   describe('deployKeys', () => {
     it('test case from standard', () => {
-      const masterKey =
-        parseHexStringToBuffer('8899aabbccddeeff0011223344556677fedcba98765432100123456789abcdef')
+      const masterKey = parseHexStringToBuffer('8899aabbccddeeff0011223344556677fedcba98765432100123456789abcdef')
       const key1 = parseHexStringToBuffer('8899aabbccddeeff0011223344556677')
       const key2 = parseHexStringToBuffer('fedcba98765432100123456789abcdef')
       const key3 = parseHexStringToBuffer('db31485315694343228d6aef8cc78c44')
