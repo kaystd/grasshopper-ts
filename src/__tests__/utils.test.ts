@@ -6,6 +6,7 @@ import {
   curryTwoFlip,
   decryptString,
   encryptString,
+  generateKey,
   joinMessage,
   parseHexStringToBuffer,
   pipe,
@@ -191,6 +192,33 @@ describe('Utils functions', () => {
       const message = 'Hello World! 😀😃😄'
 
       expect(decryptString(encrypted, key)).toEqual(message)
+    })
+  })
+
+  describe('encrypt and decrypt string', () => {
+    it('key from string', () => {
+      const key = 'YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXoxMjM0NTY='
+      const message = 'Hello World! 😀😃😄'
+
+      expect(decryptString(encryptString(message, key), key)).toEqual(message)
+    })
+    it('generated key', () => {
+      const key = generateKey()
+      const message = 'Hello World! 😀😃😄'
+
+      expect(decryptString(encryptString(message, key), key)).toEqual(message)
+    })
+  })
+
+  describe('generateKey', () => {
+    it('key length', () => {
+      const keyLength = generateKey().length
+      expect(keyLength).toEqual(44)
+    })
+    it('last char', () => {
+      const key = generateKey()
+      const lastChar = key.charAt(key.length - 1)
+      expect(lastChar).toEqual('=')
     })
   })
 })

@@ -122,7 +122,6 @@ export const encryptString = (message: string, masterKey: string): string => {
   return bufferToBase64(joined)
 }
 
-
 /**
  * Decrypts encrypted message in Base-64 and returns Utf-8 string message
  * @param message Base-64 string
@@ -138,4 +137,13 @@ export const decryptString = (message: string, masterKey: string): string => {
   const truncated = pipe(joinMessage, truncateMessage)(decrypted)
 
   return pipe(bufferToBase64, base64ToUtf8)(truncated)
+}
+
+/**
+ * Generates 256-bit masterKey in Base-64
+ */
+export const generateKey = (): string => {
+  const buffer = Array(32).fill(0).map(v => Math.floor(Math.random() * 255))
+
+  return bufferToBase64(buffer)
 }
