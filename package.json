@@ -1,8 +1,8 @@
 {
   "name": "grasshopper-ts",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Grasshopper GOST 3412-2015 ECB implementation with TypeScript",
-  "main": "lib/index.ts",
+  "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
     "build": "tsc",
